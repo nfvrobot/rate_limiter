@@ -7,6 +7,13 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * DefaultRateLimiter is the default implementation of the {@link RateLimiter} interface.
+ * It provides a mechanism to limit calls based on a sliding window log algorithm.
+ * The rate limiter restricts the number of calls that can be made within a specific time interval,
+ * by maintaining a log of past call timestamps per unique caller ID and evicting
+ * entries that fall outside the current window on each invocation.
+ */
 public class DefaultRateLimiter implements RateLimiter {
 
     private final String name;
@@ -23,6 +30,15 @@ public class DefaultRateLimiter implements RateLimiter {
         return name;
     }
 
+    public RateLimiterConfig getRateLimiterConfig() {
+        return rateLimiterConfig;
+    }
+
+    /**
+     * Checks if a call is limited based on the configured rate limit.
+     * @param unqId Unique identifier for the caller.
+     * @return True if the call is limited, false otherwise.
+     */
     @Override
     public boolean isCallLimited(final String unqId) {
         final var now = LocalDateTime.now();
@@ -36,11 +52,6 @@ public class DefaultRateLimiter implements RateLimiter {
 
         calls.add(now);
         return false;
-    }
-
-    @Override
-    public RateLimiterConfig getConfig() {
-        return this.rateLimiterConfig;
     }
 
     @Override

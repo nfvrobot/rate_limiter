@@ -6,12 +6,85 @@
 
     <groupId>com.ylf</groupId>
     <artifactId>rate-limiter</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.0.1</version>
+    <packaging>jar</packaging>
+
+    <name>Rate Limiter</name>
+    <description>A lightweight Java rate limiter library supporting token-based rate limiting strategies.</description>
+    <url>https://github.com/ylf/rate-limiter</url>
+    <inceptionYear>2026</inceptionYear>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://opensource.org/licenses/MIT</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>nfv</id>
+            <name>Denis Chernyavsky</name>
+            <email>fraggedbynfv@gmail.com</email>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>Europe/Minsk</timezone>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://github.com/nfvrobot/rate_limiter.git</connection>
+        <developerConnection>scm:git:ssh://github.com/nfvrobot/rate_limiter.git</developerConnection>
+        <url>https://github.com/nfvrobot/rate_limiter</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <issueManagement>
+        <system>GitHub Issues</system>
+        <url>https://github.com/nfvrobot/rate_limiter/issues</url>
+    </issueManagement>
 
     <properties>
         <maven.compiler.source>25</maven.compiler.source>
         <maven.compiler.target>25</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <junit.version>5.12.2</junit.version>
+        <assertj.version>3.27.7</assertj.version>
+        <mockito.version>5.17.0</mockito.version>
+        <mockito.junit.jupiter.version>5.17.0</mockito.junit.jupiter.version>
     </properties>
-    
+
+    <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${assertj.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>${mockito.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>${mockito.junit.jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+
+
 </project>
