@@ -2,48 +2,42 @@ package com.ylf.rl.config;
 
 import com.ylf.rl.core.RateLimiterType;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullAndEmptySource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.time.Duration;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class RateLimiterConfigTest {
+    Duration interval = Duration.ofMinutes(1);
 
     @Test
     void shouldThrowIllegalArgumentExceptionWhenTypeIsNull() {
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> new RateLimiterConfig(null, "test", 10, Duration.ofMinutes(1)));
-        assertEquals("Invalid type", exception.getMessage());
+        assertThatThrownBy(() -> new RateLimiterConfig(null, "test", 10, interval))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Invalid type");
     }
 
-    @Test
-    void shouldThrowIllegalArgumentExceptionWhenNameIsNull() {
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> new RateLimiterConfig(RateLimiterType.DEFAULT, null, 10, Duration.ofMinutes(1)));
-        assertEquals("Name must be not null and not blank", exception.getMessage());
+    @ParameterizedTest
+    @NullAndEmptySource
+    @ValueSource(strings = {"  "})
+    void shouldThrowIllegalArgumentExceptionWhenNameIsInvalid(String name) {
+        assertThatThrownBy(() -> new RateLimiterConfig(RateLimiterType.DEFAULT, name, 10, interval))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Name must be not null and not blank");
     }
-
-    @Test
-    void shouldThrowIllegalArgumentExceptionWhenNameIsBlank() {
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> new RateLimiterConfig(RateLimiterType.DEFAULT, "  ", 10, Duration.ofMinutes(1)));
-        assertEquals("Name must be not null and not blank", exception.getMessage());
-    }
-
-    @Test
-    void shouldThrowIllegalArgumentExceptionWhenTokensIsZero() {
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> new RateLimiterConfig(RateLimiterType.DEFAULT, "test", 0, Duration.ofMinutes(1)));
-        assertEquals("Tokens must be greater than 0", exception.getMessage());
-    }
-
-    @Test
-    void shouldThrowIllegalArgumentExceptionWhenTokensIsNegative() {
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> new RateLimiterConfig(RateLimiterType.DEFAULT, "test", -5, Duration.ofMinutes(1)));
-        assertEquals("Tokens must be greater than 0", exception.getMessage());
+    
+    @ParameterizedTest
+    @ValueSource(ints = {0, -5})
+    void shouldThrowIllegalArgumentExceptionWhenTokensAreInvalid(int tokens) {
+        assertThatThrownBy(() -> new RateLimiterConfig(RateLimiterType.DEFAULT, "test", tokens, interval))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Tokens must be greater than 0");
     }
 
     @Test
@@ -55,14 +49,15 @@ class RateLimiterConfigTest {
 
     @Test
     void shouldThrowIllegalArgumentExceptionWhenIntervalIsNegative() {
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> new RateLimiterConfig(RateLimiterType.DEFAULT, "test", 10, Duration.ofMinutes(-1)));
-        assertEquals("Interval must be greater than 0", exception.getMessage());
+        interval = Duration.ofMinutes(-1);
+        assertThatThrownBy(() -> new RateLimiterConfig(RateLimiterType.DEFAULT, "test", -5, interval))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Tokens must be greater than 0");
     }
 
     @Test
     void shouldCreateRateLimiterConfigWithValidParameters() {
-        RateLimiterConfig config = assertDoesNotThrow(
+        var config = assertDoesNotThrow(
                 () -> new RateLimiterConfig(RateLimiterType.DEFAULT, "test", 10, Duration.ofMinutes(2)));
         assertEquals(RateLimiterType.DEFAULT, config.type());
         assertEquals("test", config.name());

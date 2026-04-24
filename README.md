@@ -1,43 +1,294 @@
-# Rate Limiter Library
+# Rate Limiter
+![Java](https://img.shields.io/badge/Java-25-orange)
+![Status](https://img.shields.io/badge/status-experimental-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+![Maven](https://img.shields.io/badge/build-Maven-C71A36?logo=apachemaven&logoColor=white)
+<p align="center">
+  <img src="public/oh_hi_mark.gif" alt="Community vibe" />
+</p>
 
-A lightweight, thread-safe Java rate limiting library for controlling the rate of operations in applications.
+## TL;DR
 
-## Overview
+This project exists because I had some free time, a technical idea, and a complete lack of understanding what to do with spare time.
+And not enough peace to simply relax.
 
-This library provides a simple and efficient way to implement rate limiting in Java applications. It uses a sliding
-window
-log algorithm to control the rate at which operations can be performed.
+So instead of touching grass, I started building a Java rate limiter.
 
-**Note**: This is an educational open-source project designed for Java developers to practice contributing to GitHub
-projects and engage with the open-source community. It is **not intended for production use** or high-load scenarios.
+If that sounds like your kind of open source energy — you are very welcome here.
 
-## Project Goals
+## Welcome
+Hi everyone, my name is Denis, I’m a Software Engineer.
 
-- **Learning Platform**: Provide a safe environment for developers to practice open-source contributions
-- **Community Building**: Unite Java developers through collaborative development and pull requests
-- **Skill Development**: Help developers learn rate-limiting concepts, design patterns, and best practices
-- **Open Source Practice**: Experience the full cycle of open-source collaboration on GitHub
+This project started as a technical idea and time killer, but it eventually becomes something... important? A way to connect with people through open source.  
+I want this repository to be a place where anyone interested in Java (yeap, especially me), software design, concurrency, and backend engineering can join, contribute, share ideas, and do whatever you want (only legal stuff).
 
-## Features
+If this topic is interesting to you, feel free to explore, open discussions, suggest improvements, or just say 'oh, hi Mark'.
 
-- **Thread-safe**: Built with `ConcurrentHashMap` for safe concurrent access
-- **Configurable**: Customize tokens, intervals, and rate limiter names
-- **Registry Pattern**: Centralized management of multiple rate limiters
-- **Simple API**: Easy-to-use factory methods and intuitive interface
-- **Default Configuration**: Sensible defaults for quick setup
-- **Educational Focus**: Well-documented code suitable for learning and experimentation
+
+
+## About the project
+>**Rate Limiter** is a Java open source project focused on implementing rate-limiting mechanisms with clean code, good engineering practices, and extensible design.
+
+The main goal of this repository is **not** to build the next production-standard rate limiter right away.  
+The goal is to:
+
+- explore rate-limiting algorithms deeply (Not only rate limiting, btw. A bunch of other topics are also explored)
+- write high-quality Java code (Try it and you will love it)
+- apply best practices and design patterns
+- experiment with architecture and data structures
+- build a small open source community around the project
+- meet people, exchange ideas, and learn together
+
+This repository is a place for **engineering practice**, **curiosity**, and **collaboration**.
+
+---
+
+## Motivation
+
+Rate limiting is one of those topics that looks simple at first, but quickly becomes interesting when you start thinking about:
+
+- algorithm trade-offs
+- concurrency
+- memory efficiency
+- fairness
+- registry lifecycle
+- observability and metrics
+- configuration management
+- annotation-based APIs
+- integration with modern Java features
+
+This project exists to explore those topics in practice.
+
+---
+
+## Project philosophy
+
+This project is built around a few simple ideas:
+
+- **Code quality matters**
+- **Learning by building matters**
+- **Open source should be welcoming**
+- **Small projects can still be well-designed**
+- **Experimentation is valuable even without production pressure**
+
+Even if this library never becomes production-ready, it can still become a useful and interesting codebase for learning, discussion, and contribution.
+
+---
+
+## Current status
+
+At the moment, the project is centered around a **dynamic sliding window rate limiter** implementation.
+
+Current direction:
+
+- Java-first implementation
+- focus on readability and extensibility
+- simple core abstractions
+- room for algorithmic experiments and refactoring
+
+---
+
+## Goals
+
+### Technical goals
+
+- implement multiple rate-limiting strategies
+- improve configurability
+- explore efficient data structures
+- add lifecycle management for registries
+- expose metrics and statistics
+- design a clean annotation-based API
+- keep the codebase understandable and contributor-friendly
+
+### Community goals
+
+- attract people interested in Java internals and backend infrastructure
+- create a space for discussion and experimentation
+- meet new people in the open source community
+- collaborate on architecture, patterns, and implementation ideas
+
+---
+
+## Planned features
+
+### 1. More rate-limiting algorithms
+
+In addition to the current dynamic sliding window approach, planned implementations may include:
+
+- **Fixed Window**
+- **Sliding Window Log**
+- **Sliding Window Counter**
+- **Token Bucket**
+- **Leaky Bucket**
+- **Warm-up / gradual ramp-up limiter**
+- **Concurrency-based limiter**
+- **Distributed-friendly limiter** as a future experiment
+
+This will make the project a better place to compare approaches and trade-offs.
+
+---
+
+### 2. Annotation-based API
+
+A future goal is to make the limiter usable through an annotation placed above methods.
+
+Example direction:
+java @RateLimited(name = "payment-api") public void executePayment() { // business logic }
+
+Possible future integrations:
+
+- plain Java / proxy-based support
+- Spring-oriented support
+- custom interceptors / AOP experiments
+
+---
+
+### 3. Virtual Threads and scheduled registry cleanup
+
+A planned improvement is to introduce:
+
+- **Virtual Threads**
+- **Scheduler-based cleanup**
+- smarter lifecycle handling for the `RateLimiterRegistry`
+
+The idea is to automatically remove stale or unused rate limiters and keep registry state healthier over time.
+
+---
+
+### 4. External configuration
+
+Right now, configuration is intentionally simple.
+
+A future goal is to support **external configuration**, so the rate limiter can be tuned more easily without relying on static or near-hardcoded setup.
+
+Possible directions:
+
+- properties / YAML-based config
+- builder-based configuration
+- dynamic refresh experiments
+- framework-friendly configuration adapters
+
+---
+
+### 5. Alternative data structures
+
+Another important area of experimentation is internal storage.
+
+Possible directions:
+
+- **Ring buffer**
+- more compact structures for time-based tracking
+- structures optimized for lower allocation pressure
+- algorithm-specific storage models
+
+This is especially interesting for performance, memory usage, and clarity of implementation.
+
+---
+
+### 6. Metrics and observability
+
+A future goal is to add statistics and metrics export, for example:
+
+- allowed requests count
+- rejected requests count
+- per-limiter metrics
+- per-client or per-key metrics where appropriate
+- integration with **Prometheus**
+- Micrometer-style instrumentation ideas
+
+This would make the project much more interesting from an observability perspective.
+
+---
+
+## Why this project may be interesting
+
+This repository may be interesting if you want to:
+
+- practice Java with a real infrastructure-style problem
+- discuss concurrency and state management
+- compare classic rate-limiting algorithms
+- experiment with APIs and library design
+- contribute to a small but thoughtful open source codebase
+
+---
+
+## Inspiration
+
+This project is inspired by open source libraries such as **[Resilience4j](https://github.com/resilience4j/resilience4j)** and **[Micrometer](https://github.com/micrometer-metrics/micrometer)**.
+
+They are much more mature, serious, and feature-complete projects, and this repository is **not trying to compete with them**.
+
+Instead, this project is a smaller learning-oriented space inspired by the kind of engineering mindset those libraries represent:
+
+- good design
+- clear abstractions
+- useful APIs
+- practical infrastructure concerns
+- thoughtful open source development
+
+---
 
 ## Contributing
 
-We welcome contributions from developers of all skill levels! This project is designed to be a friendly entry point
-into open-source development. Here's how you can participate:
+Contributions, ideas, refactorings, discussions, and feedback are welcome.
 
-- **Report Issues**: Found a bug or have a suggestion? Open an issue!
-- **Submit Pull Requests**: Implement new features, fix bugs, or improve documentation
-- **Review Code**: Help review pull requests from other contributors
-- **Share Ideas**: Discuss rate limiting strategies and implementation approaches
+You can contribute through:
 
-## Disclaimer
+- proposing new algorithms
+- discussing trade-offs between implementations
+- improving API design
+- improving JavaDoc and documentation
+- suggesting better data structures
+- helping with tests and benchmarks
+- improving observability and metrics support
 
-This library is designed for **community engagement**. It is not optimized for production
-environments or high-load scenarios. Use it to learn, experiment, and practice collaborative development.
+If you are interested in Java, backend infrastructure, concurrency, library design, or open source collaboration, you are very welcome here.
+
+---
+
+## Roadmap snapshot
+
+- [x] Initial dynamic sliding window implementation
+- [ ] Add more limiter algorithms
+- [ ] Introduce annotation-based API
+- [ ] Add registry cleanup with scheduler
+- [ ] Explore Virtual Threads integration
+- [ ] Support external configuration
+- [ ] Replace or experiment with ring buffer storage (No idea where it and why do I need it, but okay)
+- [ ] Add statistics and Prometheus-oriented metrics
+- [ ] Improve tests, benchmarks, and documentation
+
+---
+
+## Project status
+
+This is an **active learning and experimentation project**.
+
+It should currently be viewed as:
+
+- educational
+- exploratory
+- architecture-oriented
+- open for discussion and contribution
+
+Not production-first.  
+Quality-first.
+
+---
+
+## License
+
+Choose the license you prefer for the repository, for example:
+
+- MIT
+- Apache-2.0
+
+## Bye!
+
+<p align="center">
+  <img src="public/touch_grass.gif" alt="Touch grass" />
+</p>
+
+What else do you want, candy?
+
+There will be no candy.

@@ -10,7 +10,7 @@
     <packaging>jar</packaging>
 
     <name>Rate Limiter</name>
-    <description>A lightweight Java rate limiter library supporting token-based rate limiting strategies.</description>
+    <description>A lightweight Java rate limiter library.</description>
     <url>https://github.com/ylf/rate-limiter</url>
     <inceptionYear>2026</inceptionYear>
 
@@ -24,7 +24,7 @@
 
     <developers>
         <developer>
-            <id>nfv</id>
+            <id>nfvrobot</id>
             <name>Denis Chernyavsky</name>
             <email>fraggedbynfv@gmail.com</email>
             <roles>
@@ -38,7 +38,7 @@
         <connection>scm:git:git://github.com/nfvrobot/rate_limiter.git</connection>
         <developerConnection>scm:git:ssh://github.com/nfvrobot/rate_limiter.git</developerConnection>
         <url>https://github.com/nfvrobot/rate_limiter</url>
-        <tag>HEAD</tag>
+        <tag>master</tag>
     </scm>
 
     <issueManagement>
@@ -84,7 +84,4 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-
-
 </project>
