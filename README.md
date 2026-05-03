@@ -24,8 +24,6 @@ I want this repository to be a place where anyone interested in Java (yeap, espe
 
 If this topic is interesting to you, feel free to explore, open discussions, suggest improvements, or just say 'oh, hi Mark'.
 
-
-
 ## About the project
 This project is inspired by open source libraries such as **[Resilience4j](https://github.com/resilience4j/resilience4j)** and **[Micrometer](https://github.com/micrometer-metrics/micrometer)**.
 
@@ -33,47 +31,30 @@ They are much more mature, serious, and feature-complete projects, and this repo
 
 Instead, this project is a smaller learning-oriented space inspired by the kind of engineering mindset those libraries represent:
 
-- good design
-- clear abstractions
-- useful APIs
-- practical infrastructure concerns
+- good design (I hope)
 - thoughtful open source development
 
 >**Rate Limiter** is a Java open source project focused on implementing rate-limiting mechanisms with clean code, good engineering practices, and extensible design.
-
-The main goal of this repository is **not** to build the next production-standard rate limiter right away.  
-The goal is to:
-
-- explore rate-limiting algorithms deeply (Not only rate limiting, btw. A bunch of other topics are also explored)
-- write high-quality Java code (Try it and you will love it)
-- apply best practices and design patterns
-- experiment with architecture and data structures
-- build a small open source community around the project
-- meet people, exchange ideas, and learn together
-
-This repository is a place for **engineering practice**, **curiosity**, and **collaboration**.
-
 ---
 
 ## Goals
-
+The main goal of this repository is **not** to build the next production-standard rate limiter right away.  
+This repository is a place for **engineering practice**, **curiosity**, and **collaboration**.
 ### Technical goals
 
-Practice? Practice! It's all about practice! And..
+Practice? Practice! It's all about practice! And...
 
 ### Community goals
-I do believe in open source community, and I'd like to become a part of this.
-- attract people interested in Java internals and backend infrastructure
-- create a space for discussion and experimentation
-- meet new people in the open source community
-- collaborate on architecture, patterns, and implementation ideas
-
+I do believe in the open source community, and I'd like to become a part of this. My goals are to meet new people with
+similar interests and passions to programming and to collaborate on architecture, patterns, and implementation ideas with other developers.
 
 ---
 
 ## Contributing
 If you are interested in Java, backend infrastructure, concurrency, library design, or open source collaboration, you are very welcome here.
 Contributions, ideas, refactorings, discussions, and feedback are welcome. And memes.
+
+See the [CONTRIBUTING.md](CONTRIBUTING.md) file for more details.
 
 ---
 
