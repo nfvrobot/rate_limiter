@@ -51,6 +51,7 @@ class RateLimiterConfigTest {
     @Test
     void shouldThrowIllegalArgumentExceptionWhenIntervalIsNegative() {
         interval = Duration.ofMinutes(-1);
+
         assertThatThrownBy(() -> new RateLimiterConfig(RateLimiterType.DEFAULT, "test", -5, interval))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Tokens must be greater than 0");
@@ -60,6 +61,7 @@ class RateLimiterConfigTest {
     void shouldCreateRateLimiterConfigWithValidParameters() {
         var config = assertDoesNotThrow(
                 () -> new RateLimiterConfig(RateLimiterType.DEFAULT, "test", 10, Duration.ofMinutes(2)));
+
         assertThat(config).satisfies(c -> {
             assertThat(c.type()).isEqualTo(RateLimiterType.DEFAULT);
             assertThat(c.name()).isEqualTo("test");
