@@ -8,12 +8,12 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import java.time.Duration;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class RateLimiterConfigTest {
+
     Duration interval = Duration.ofMinutes(1);
 
     @Test
@@ -31,7 +31,7 @@ class RateLimiterConfigTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Name must be not null and not blank");
     }
-    
+
     @ParameterizedTest
     @ValueSource(ints = {0, -5})
     void shouldThrowIllegalArgumentExceptionWhenTokensAreInvalid(int tokens) {
@@ -42,9 +42,10 @@ class RateLimiterConfigTest {
 
     @Test
     void shouldThrowIllegalArgumentExceptionWhenIntervalIsNull() {
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> new RateLimiterConfig(RateLimiterType.DEFAULT, "test", 10, null));
-        assertEquals("Interval must be greater than 0", exception.getMessage());
+        assertThatThrownBy(
+                () -> new RateLimiterConfig(RateLimiterType.DEFAULT, "test", 10, null))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Interval must be greater than 0");
     }
 
     @Test
@@ -59,9 +60,11 @@ class RateLimiterConfigTest {
     void shouldCreateRateLimiterConfigWithValidParameters() {
         var config = assertDoesNotThrow(
                 () -> new RateLimiterConfig(RateLimiterType.DEFAULT, "test", 10, Duration.ofMinutes(2)));
-        assertEquals(RateLimiterType.DEFAULT, config.type());
-        assertEquals("test", config.name());
-        assertEquals(10, config.tokens());
-        assertEquals(Duration.ofMinutes(2), config.interval());
+        assertThat(config).satisfies(c -> {
+            assertThat(c.type()).isEqualTo(RateLimiterType.DEFAULT);
+            assertThat(c.name()).isEqualTo("test");
+            assertThat(c.tokens()).isEqualTo(10);
+            assertThat(c.interval()).isEqualTo(Duration.ofMinutes(2));
+        });
     }
 }
