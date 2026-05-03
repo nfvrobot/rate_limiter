@@ -93,7 +93,7 @@ Contributions, ideas, refactorings, discussions, and feedback are welcome. And m
 
 ## License
 
-- Apache-2.0
+- MIT
 
 
 ### And do not forget to
