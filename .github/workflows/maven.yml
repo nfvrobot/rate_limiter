@@ -19,7 +19,7 @@ jobs:
     timeout-minutes: 20
 
     permissions:
-      contents: write   # required by maven-dependency-submission-action
+      contents: write
 
     steps:
       - uses: actions/checkout@v6
@@ -36,4 +36,5 @@ jobs:
 
       - name: Update dependency graph
         if: github.event_name == 'push'
+        continue-on-error: true
         uses: advanced-security/maven-dependency-submission-action@v5
