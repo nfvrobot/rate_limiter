@@ -93,9 +93,6 @@ Contributions, ideas, refactorings, discussions, and feedback are welcome. And m
 
 ## License
 
-Choose the license you prefer for the repository, for example:
-
-- MIT
 - Apache-2.0
 
 
