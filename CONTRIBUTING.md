@@ -1,6 +1,6 @@
 # Contributing
 <p align="center">
-  <img src="public/how_date_you.gif" alt="Community vibe" />
+  <img src="public/x_files.gif" alt="Community vibe" />
 </p>
 
 Oh boy, you made up your mind to contribute to this project! Poor bast... what a bold!
