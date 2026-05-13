@@ -1,44 +1,36 @@
 package com.ylf.rl.core;
 
-import com.ylf.rl.config.RateLimiterConfig;
-
-import java.time.Duration;
-
 /**
- * RateLimiter interface defines the contract for rate-limiting operations.
+ * Contract for a rate limiter that controls request throughput based on a configured policy.
+ * <p>
+ * Implementations define how requests are tracked and limited over time,
+ * typically using time-based or token-based algorithms.
+ * <p>
+ * A rate limiter is expected to be thread-safe.
  */
-public interface RateLimiter {
-
-    int DEFAULT_RATE_LIMITER_TOKENS = 10;
-    RateLimiterType TYPE = RateLimiterType.DEFAULT;
-    String DEFAULT_RATE_LIMITER_NAME = "default";
-    Duration DEFAULT_RATE_LIMITER_INTERVAL = Duration.ofMinutes(2);
-    RateLimiterConfig DEFAULT_RATE_LIMITER_CONFIG = new RateLimiterConfig(TYPE, DEFAULT_RATE_LIMITER_NAME,
-            DEFAULT_RATE_LIMITER_TOKENS, DEFAULT_RATE_LIMITER_INTERVAL);
+public interface RateLimiter extends AutoCloseable {
 
     /**
-     * Factory method to create a new RateLimiter instance. If no name is provided, a default name will be used.
-     * If no configuration is provided, a default configuration will be used. The default configuration is:
-     * name = "default", tokens = 10, 'interval' = 2 minutes.
+     * Attempts to acquire permission for a request.
      *
-     * @param name              the name of the rate limiter
-     * @param rateLimiterConfig the configuration for the rate limiter
-     * @return a new {@link RateLimiter} instance backed by {@link DefaultRateLimiter}
+     * @param unqId identifier of the caller
+     * @return true if the request is allowed, false if it exceeds the rate limit
      */
-    static RateLimiter of(String name, RateLimiterConfig rateLimiterConfig) {
-        if (name == null || name.isBlank()) {
-            name = DEFAULT_RATE_LIMITER_NAME;
-        }
-        if (rateLimiterConfig == null) {
-            rateLimiterConfig = DEFAULT_RATE_LIMITER_CONFIG;
-        }
-        return RateLimiterRegistry.getInstance().getOrCreate(name, new DefaultRateLimiter(name, rateLimiterConfig,
-                rateLimiterConfig.tokens() + 1));
-    }
+    boolean tryAcquire(String unqId);
 
-    boolean isCallLimited(String unqId);
-
+    /**
+     * Clears all internal tracking state for this rate limiter.
+     * This effectively resets the rate-limiting counters/windows.
+     */
     void clearState();
 
-
+    /**
+     * Releases any resources held by this rate limiter
+     * (background schedulers, executors, listeners, etc.).
+     * <p>
+     * Must be idempotent. Calling {@link #tryAcquire(String)} after {@code close()}
+     * is allowed but may not benefit from background maintenance (e.g. eviction).
+     */
+    @Override
+    void close();
 }

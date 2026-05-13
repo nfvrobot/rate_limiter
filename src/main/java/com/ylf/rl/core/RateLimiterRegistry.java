@@ -1,6 +1,7 @@
 package com.ylf.rl.core;
 
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Supplier;
 
 /**
  * Facade for managing RateLimiter instances.
@@ -23,7 +24,7 @@ public class RateLimiterRegistry {
     /**
      * Returns an existing RateLimiter by name, or creates and registers a new one.
      */
-    protected RateLimiter getOrCreate(String name, RateLimiter rateLimiter) {
-        return rateLimiterMap.computeIfAbsent(name, _ -> rateLimiter);
+    protected RateLimiter getOrCreate(String name, Supplier<RateLimiter> supplier) {
+        return rateLimiterMap.computeIfAbsent(name, _ ->  supplier.get());
     }
 }
