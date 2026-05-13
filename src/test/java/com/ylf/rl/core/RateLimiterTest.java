@@ -1,6 +1,6 @@
 package com.ylf.rl.core;
 
-import com.ylf.rl.config.RateLimiterConfig;
+import com.ylf.rl.core.config.RateLimiterConfig;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
@@ -11,10 +11,10 @@ class RateLimiterTest {
 
     @Test
     void shouldCreateRateLimiterWithProvidedNameAndConfig() {
-        var config = new RateLimiterConfig(RateLimiterType.DEFAULT, "configName", 20, Duration.ofMinutes(1));
+        var config = new RateLimiterConfig(RateLimiterType.SLIDING_WINDOW, "configName", 20, Duration.ofMinutes(1));
         var rateLimiter = RateLimiter.of("rateLimiterOf", config);
 
-        assertThat(rateLimiter).isInstanceOfSatisfying(DefaultRateLimiter.class, rl -> {
+        assertThat(rateLimiter).isInstanceOfSatisfying(SlidingWindowRateLimiter.class, rl -> {
             assertThat(rl.getName()).isEqualTo("rateLimiterOf");
             assertThat(rl.getRateLimiterConfig()).isEqualTo(config);
         });
@@ -22,10 +22,10 @@ class RateLimiterTest {
 
     @Test
     void shouldUseDefaultNameWhenNameIsNull() {
-        var config = new RateLimiterConfig(RateLimiterType.DEFAULT, "configName", 20, Duration.ofMinutes(1));
+        var config = new RateLimiterConfig(RateLimiterType.SLIDING_WINDOW, "configName", 20, Duration.ofMinutes(1));
         var rateLimiter = RateLimiter.of(null, config);
 
-        assertThat(rateLimiter).isInstanceOfSatisfying(DefaultRateLimiter.class, rl -> {
+        assertThat(rateLimiter).isInstanceOfSatisfying(SlidingWindowRateLimiter.class, rl -> {
             assertThat(rl.getName()).isEqualTo(RateLimiter.DEFAULT_RATE_LIMITER_NAME);
             assertThat(rl.getRateLimiterConfig()).isEqualTo(config);
         });
@@ -35,7 +35,7 @@ class RateLimiterTest {
     void shouldUseDefaultConfigurationWhenConfigIsNull() {
         var rateLimiter = RateLimiter.of("rateLimiterWithDefaultConfig", null);
 
-        assertThat(rateLimiter).isInstanceOfSatisfying(DefaultRateLimiter.class, rl -> {
+        assertThat(rateLimiter).isInstanceOfSatisfying(SlidingWindowRateLimiter.class, rl -> {
             assertThat(rl.getName()).isEqualTo("rateLimiterWithDefaultConfig");
             assertThat(rl.getRateLimiterConfig()).isEqualTo(RateLimiter.DEFAULT_RATE_LIMITER_CONFIG);
         });

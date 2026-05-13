@@ -2,5 +2,9 @@ package com.ylf.rl.core;
 
 public enum RateLimiterType {
 
-    DEFAULT
+    SLIDING_WINDOW,
+    FIXED_WINDOW,
+    TOKEN_BUCKET,
+    CONCURRENCY,
+    LEAKY_BUCKET
 }

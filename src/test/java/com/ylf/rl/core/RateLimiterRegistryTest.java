@@ -1,6 +1,6 @@
 package com.ylf.rl.core;
 
-import com.ylf.rl.config.RateLimiterConfig;
+import com.ylf.rl.core.config.RateLimiterConfig;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
@@ -22,8 +22,8 @@ class RateLimiterRegistryTest {
     @Test
     void shouldCreateAndReturnNewRateLimiter() {
         var registry = RateLimiterRegistry.getInstance();
-        var config = new RateLimiterConfig(RateLimiterType.DEFAULT, "testLimiter", 5, Duration.ofSeconds(60));
-        var rateLimiter = new DefaultRateLimiter("testLimiter", config, config.tokens() + 1);
+        var config = new RateLimiterConfig(RateLimiterType.SLIDING_WINDOW, "testLimiter", 5, Duration.ofSeconds(60));
+        var rateLimiter = new SlidingWindowRateLimiter(config, config.tokens() + 1);
 
         var createdLimiter = registry.getOrCreate("testLimiter", rateLimiter);
 
@@ -35,13 +35,13 @@ class RateLimiterRegistryTest {
     @Test
     void shouldReturnExistingRateLimiterIfAlreadyCreated() {
         var registry = RateLimiterRegistry.getInstance();
-        var config = new RateLimiterConfig(RateLimiterType.DEFAULT, "existingLimiter", 10, Duration.ofMinutes(1));
-        var rateLimiter = new DefaultRateLimiter("existingLimiter", config, config.tokens());
+        var config = new RateLimiterConfig(RateLimiterType.SLIDING_WINDOW, "existingLimiter", 10, Duration.ofMinutes(1));
+        var rateLimiter = new SlidingWindowRateLimiter(config, config.tokens());
         registry.getOrCreate("existingLimiter", rateLimiter);
 
 
-        var retrievedLimiter = registry.getOrCreate("existingLimiter", new DefaultRateLimiter(
-                "existingLimiter", config, config.tokens() + 1));
+        var retrievedLimiter = registry.getOrCreate("existingLimiter", new SlidingWindowRateLimiter(
+                config, config.tokens() + 1));
 
         assertThat(retrievedLimiter)
                 .isNotNull()
